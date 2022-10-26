@@ -1,0 +1,13 @@
+[package]
+name = "engine"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+env_logger = "0.9.1"
+log = "0.4.17"
+bincode = "2.0.0-rc.2"
+
+[[bin]]
+name = "engine-demo"
+path = "src/engine-demo.rs"

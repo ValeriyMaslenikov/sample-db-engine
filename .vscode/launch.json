@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch demo app for library (valid file)",
+            "cargo": {
+                "args": ["build", "--bin", "engine-demo"]
+            },
+            "env": { "RUST_LOG": "DEBUG" },
+            "args": ["./db/database.data"]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch demo app for library (invalid file)",
+            "cargo": {
+                "args": ["build", "--bin", "engine-demo"]
+            },
+            "env": { "RUST_LOG": "DEBUG" },
+            "args": ["./db"]
+        }
+    ]
+}
