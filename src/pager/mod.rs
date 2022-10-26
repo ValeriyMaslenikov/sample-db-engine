@@ -1,5 +1,6 @@
 use constants::PAGE_SIZE_BYTES;
 use log::{ debug, info };
+use std::fmt::Error;
 use std::fs::File;
 use std::io::{ Error as IOError, Write };
 use std::result::Result;
@@ -63,7 +64,7 @@ impl Pager {
             // the preserved space, otherwise we will start overwriting the first page metadata
             assert!(encoded_database_header <= DATABASE_HEADER_BYTES);
 
-            self.main_db_file.write(&metapage_buffer)?;
+            self.main_db_file.write_all(&metapage_buffer)?;
 
             info!("Database header has been written to metapage");
         } else {

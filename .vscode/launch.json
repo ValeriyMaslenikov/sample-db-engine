@@ -7,9 +7,9 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Launch simple database binary (valid file)",
+            "name": "Launch demo app for library (valid file)",
             "cargo": {
-                "args": ["build", "--bin", "engine"]
+                "args": ["build", "--bin", "engine-demo"]
             },
             "env": { "RUST_LOG": "DEBUG" },
             "args": ["./db/database.data"]
@@ -17,9 +17,9 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Launch simple database binary (invalid file)",
+            "name": "Launch demo app for library (invalid file)",
             "cargo": {
-                "args": ["build", "--bin", "engine"]
+                "args": ["build", "--bin", "engine-demo"]
             },
             "env": { "RUST_LOG": "DEBUG" },
             "args": ["./db"]

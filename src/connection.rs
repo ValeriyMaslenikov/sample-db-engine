@@ -18,6 +18,7 @@ impl Default for Config {
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct Connection {
     config: Config,
     pager: Pager,
@@ -31,7 +32,7 @@ impl Connection {
         let pager_config = PagerConfig { main_db_path };
 
         let pager = Pager::new(pager_config)?;
-        
+
         Ok(Connection {
             config: config,
             pager,
