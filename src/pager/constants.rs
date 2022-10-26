@@ -6,12 +6,10 @@
 ///
 pub const PAGE_SIZE_BYTES: u32 = 4096;
 
-
 /// It's reserved amount of bytes for Database header. The original structure occupies
 /// less amount of bytes, but to avoid any restructuring for the sake of compatibliity
 /// we will reserve additional bytes for that purpose.
 pub const DATABASE_HEADER_BYTES: usize = 100;
-
 
 /// Defines the magic header string "Simple Data Engine", which is used to verify that the loaded
 /// file is the database file of this engine

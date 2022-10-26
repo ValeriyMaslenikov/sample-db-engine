@@ -1,6 +1,6 @@
-use bincode::{Decode, Encode};
+use bincode::{ Decode, Encode };
 
-use super::constants::{MAGIC_HEADER_STRING, PAGE_SIZE_BYTES};
+use super::constants::{ MAGIC_HEADER_STRING, PAGE_SIZE_BYTES };
 
 #[derive(Encode, Decode, PartialEq, Debug)]
 pub struct DatabaseHeader {

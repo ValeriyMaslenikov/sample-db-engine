@@ -1,4 +1,3 @@
-
 use crate::pager::Config as PagerConfig;
 use crate::pager::Pager;
 
@@ -25,10 +24,9 @@ pub struct Connection {
 }
 
 impl Connection {
-    /// Connection is the main entrypoint for the library, which means that all 
+    /// Connection is the main entrypoint for the library, which means that all
     /// initializations will be performed in this method
     pub fn open(main_db_path: String, config: Config) -> std::io::Result<Connection> {
-
         let pager_config = PagerConfig { main_db_path };
 
         let pager = Pager::new(pager_config)?;

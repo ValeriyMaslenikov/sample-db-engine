@@ -1,8 +1,8 @@
 enum PageType {
     TableNonLeafPage,
-    TableLeafPage
+    TableLeafPage,
 }
 
 struct PageHeader {
-    node_type: PageType,    
+    node_type: PageType,
 }
