@@ -1,6 +1,5 @@
 use constants::PAGE_SIZE_BYTES;
 use log::{ debug, info };
-use std::fmt::Error;
 use std::fs::File;
 use std::io::{ Error as IOError, Write };
 use std::result::Result;

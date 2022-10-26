@@ -2,7 +2,7 @@ use bincode::{ Decode, Encode };
 
 use super::constants::{ MAGIC_HEADER_STRING, PAGE_SIZE_BYTES };
 
-#[derive(Encode, Decode, PartialEq, Debug)]
+#[derive(Encode, Decode, PartialEq, Eq, Debug)]
 pub struct DatabaseHeader {
     // The value should be always equal to MAGIC_HEADER_STRING constant
     magic_header_string: [u8; MAGIC_HEADER_STRING.len()],
@@ -12,9 +12,9 @@ pub struct DatabaseHeader {
 
 impl Default for DatabaseHeader {
     fn default() -> Self {
-        return DatabaseHeader {
+        DatabaseHeader {
             magic_header_string: MAGIC_HEADER_STRING,
             page_size_bytes: PAGE_SIZE_BYTES,
-        };
+        }
     }
 }

@@ -32,7 +32,7 @@ impl Connection {
         let pager = Pager::new(pager_config)?;
 
         Ok(Connection {
-            config: config,
+            config,
             pager,
         })
     }
