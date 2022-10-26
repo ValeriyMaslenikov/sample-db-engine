@@ -23,6 +23,6 @@
             },
             "env": { "RUST_LOG": "DEBUG" },
             "args": ["./db"]
-        },
+        }
     ]
 }
