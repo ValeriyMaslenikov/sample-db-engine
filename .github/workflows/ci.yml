@@ -27,10 +27,16 @@ jobs:
         run: |
           rustup update
           rustup component add clippy
-          rustup install   
+          rustup install stable 
           
       - name: Toolchain info
         run: |
           cargo --version --verbose
           rustc --version
           cargo clippy --version    
+    
+      - name: Verify code style (prettier)
+        run: |
+           npm install --global prettier-plugin-rust prettier
+           prettier --check **/*
+          
