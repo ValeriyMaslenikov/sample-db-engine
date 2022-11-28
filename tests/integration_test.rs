@@ -1,15 +1,12 @@
-
-
-
-
 /// The purpose of these tests is to do tree validation after the execution of multiple operations.
 
 #[cfg(feature = "integration")]
 mod helpers {
+    use std::fs;
+
+    use engine::connection::Connection;
     use lazy_static::lazy_static;
     use uuid::Uuid;
-
-    use super::*;
 
     lazy_static! {
         static ref TEST_ID: String = {
@@ -27,7 +24,7 @@ mod helpers {
 
         let database_path = format!("{}/{}-{}", folder, TEST_ID.to_string(), suffix);
 
-        let connection = Connection::open(database_path, Config {
+        let connection = Connection::open(database_path, engine::connection::Config {
             ..Default::default()
         }).unwrap();
 

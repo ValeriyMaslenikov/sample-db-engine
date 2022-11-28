@@ -166,12 +166,7 @@ impl LeafNode {
         let key_ref_by_inx = |inx| KeyReferenceLeaf::new_by_index(&self.data_space, inx);
         let key_by_key_ref = |key_ref: &KeyReferenceLeaf| key_ref.key;
 
-        binary_search_over_fn(
-            target_key,
-            elements_in_node,
-            &key_ref_by_inx,
-            &key_by_key_ref
-        )
+        binary_search_over_fn(target_key, elements_in_node, &key_ref_by_inx, &key_by_key_ref)
     }
 
     pub(crate) fn gt_high_key(&self, key: u32) -> bool {

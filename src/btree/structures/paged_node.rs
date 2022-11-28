@@ -55,14 +55,14 @@ impl PagedNode<BTreeNode> {
     }
 }
 
-impl Into<PagedNode<BTreeNode>> for PagedNode<LeafNode> {
-    fn into(self) -> PagedNode<BTreeNode> {
-        PagedNode { page_id: self.page_id, node: BTreeNode::Leaf(self.node) }
+impl From<PagedNode<LeafNode>> for PagedNode<BTreeNode> {
+    fn from(paged_leaf: PagedNode<LeafNode>) -> Self {
+        PagedNode { page_id: paged_leaf.page_id, node: BTreeNode::Leaf(paged_leaf.node) }
     }
 }
 
-impl Into<PagedNode<BTreeNode>> for PagedNode<InternalNode> {
-    fn into(self) -> PagedNode<BTreeNode> {
-        PagedNode { page_id: self.page_id, node: BTreeNode::Internal(self.node) }
+impl From<PagedNode<InternalNode>> for PagedNode<BTreeNode> {
+    fn from(paged_leaf: PagedNode<InternalNode>) -> Self {
+        PagedNode { page_id: paged_leaf.page_id, node: BTreeNode::Internal(paged_leaf.node) }
     }
 }

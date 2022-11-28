@@ -1,3 +1,5 @@
+use std::cmp;
+
 /// This is the implementation of the binary search on the data which may be loaded by
 /// index. To get the element by index and key by element we use callbacks.
 type InsertionPoint = u32;
@@ -20,13 +22,24 @@ pub fn binary_search_over_fn<E>(
         let mid = left + search_size / 2;
         let current_key_ref = element_by_index(mid);
         let current_key = key_by_element(&current_key_ref);
-        if target_key == current_key {
-            return (mid, Some(current_key_ref));
-        } else if target_key > current_key {
-            left = mid + 1;
-        } else {
-            right = mid;
+        match target_key.cmp(&current_key) {
+            cmp::Ordering::Equal => {
+                return (mid, Some(current_key_ref));
+            }
+            cmp::Ordering::Greater => {
+                left = mid + 1;
+            }
+            _ => {
+                right = mid;
+            }
         }
+        // if target_key == current_key {
+        //     return (mid, Some(current_key_ref));
+        // } else if target_key > current_key {
+        //     left = mid + 1;
+        // } else {
+        //     right = mid;
+        // }
 
         search_size = right - left;
     }

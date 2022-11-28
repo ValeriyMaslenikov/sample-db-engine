@@ -17,7 +17,7 @@ struct SplitResult<T: BTreeNodeRepresentation> {
     pub(super) new_child: PagedNode<T>,
 }
 
-pub(crate) fn do_insert<'a>(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -> PagerResult<()> {
+pub(crate) fn do_insert(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -> PagerResult<()> {
     if !LeafNode::can_fit_into_empty_node(value) {
         todo!();
     }
@@ -68,13 +68,11 @@ pub(crate) fn do_insert<'a>(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -
     Ok(())
 }
 
-fn split_and_persist_nodes<'a, 'b>(
+fn split_and_persist_nodes(
     pager: &mut Pager,
-    to_split: &'a mut PagedNode<LeafNode>,
-    tree_breadcrumbs: &'b mut TreeBreadcrumbs
+    to_split: &mut PagedNode<LeafNode>,
+    tree_breadcrumbs: &mut TreeBreadcrumbs
 ) -> PagerResult<SplitResult<LeafNode>> {
-    // let mutable_node = *to_split;
-
     let new_node = to_split.node.split();
     let new_node_page_id: PageId = save_node(pager, &new_node, None)?;
 
@@ -89,17 +87,18 @@ fn split_and_persist_nodes<'a, 'b>(
     let parent_node: &mut InternalNode;
     let parent_page_id;
 
-    if parent_paged_node.is_none() {
-        parent_node_owned = Some(InternalNode::new(PAGE_SIZE_BYTES));
-        parent_node = parent_node_owned.as_mut().unwrap();
-        parent_page_id = None;
-    } else {
-        parent_paged_node_cell = parent_paged_node.unwrap();
+    if let Some(cell) = parent_paged_node {
+        parent_paged_node_cell = cell;
         parent_paged_node_ref = parent_paged_node_cell.borrow_mut();
 
         parent_page_id = Some(parent_paged_node_ref.page_id);
         parent_node = &mut parent_paged_node_ref.node;
+    } else {
+        parent_node_owned = Some(InternalNode::new(PAGE_SIZE_BYTES));
+        parent_node = parent_node_owned.as_mut().unwrap();
+        parent_page_id = None;
     }
+
     // we replace existing and insert the new one
     let new_copy = PagedNode { node: new_node.clone(), page_id: new_node_page_id };
     let dividers = compute_dividers(parent_node, to_split, &new_copy);
@@ -133,7 +132,7 @@ fn split_and_persist_nodes<'a, 'b>(
     })
 }
 
-fn find_leaf_for<'pager>(pager: &'pager Pager, key: DatabaseKey) -> TreeBreadcrumbs {
+fn find_leaf_for(pager: &Pager, key: DatabaseKey) -> TreeBreadcrumbs {
     let mut result: TreeBreadcrumbs = TreeBreadcrumbs::new();
     result.push(load_root_node(pager));
 

@@ -9,6 +9,7 @@ use super::{
     persistance::loader::{ load_node, load_root_node },
 };
 
+#[allow(dead_code)]
 pub(super) struct DividerAndPagedNode {
     pub(super) divider: DatabaseKey,
     pub(super) paged: PagedNode<BTreeNode>,
@@ -62,7 +63,7 @@ impl<'a> Iterator for BTreePreorderIterator<'a> {
     type Item = IteratorItem;
 
     fn next(&mut self) -> Option<IteratorItem> {
-        while let Some(paged_node) = self.stack.pop() {
+        if let Some(paged_node) = self.stack.pop() {
             let iterator_item = iterator_item(self.pager, paged_node);
 
             for child in &iterator_item.children {

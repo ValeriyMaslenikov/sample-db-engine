@@ -102,11 +102,12 @@ fn print_tree_internal(pager: &Pager, page_id: PageId, indent: usize) {
 }
 
 pub(in crate::btree) fn print_tree(pager: &Pager, start_from_page_id: Option<PageId>) {
-    let page_id = if start_from_page_id.is_none() {
-        pager.root_page_id()
+    let page_id = if let Some(page_id) = start_from_page_id {
+        page_id
     } else {
-        start_from_page_id.unwrap()
+        pager.root_page_id()
     };
+
     println!("\nPRINTING THE TREE FROM PAGE_ID: {}", page_id);
 
     print_tree_internal(pager, page_id, 0);
