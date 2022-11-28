@@ -21,7 +21,7 @@ pub(in crate::btree) struct InternalNodeIterator<'iterator> {
 
 impl<'iterator> InternalNodeIterator<'iterator> {
     pub(super) fn new(node: &'iterator InternalNode) -> InternalNodeIterator<'iterator> {
-        return InternalNodeIterator { current_asc_inx: 0, current_desc_index: node.len(), node };
+        InternalNodeIterator { current_asc_inx: 0, current_desc_index: node.len(), node }
     }
 }
 
@@ -75,6 +75,6 @@ impl<'iterator> BTreeIterator<'iterator, InternalNodeIterator<'iterator>> for In
     }
 
     fn iterator(&'iterator self) -> InternalNodeIterator<'iterator> {
-        return InternalNodeIterator::new(self);
+        InternalNodeIterator::new(self)
     }
 }

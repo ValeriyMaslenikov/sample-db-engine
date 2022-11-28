@@ -21,7 +21,7 @@ pub(in crate::btree) struct LeafNodeIterator<'iterator> {
 
 impl<'iterator> LeafNodeIterator<'iterator> {
     pub(super) fn new(node: &'iterator LeafNode) -> LeafNodeIterator<'iterator> {
-        return LeafNodeIterator { current_asc_inx: 0, current_desc_index: node.len(), node };
+        LeafNodeIterator { current_asc_inx: 0, current_desc_index: node.len(), node }
     }
 }
 
@@ -84,6 +84,6 @@ impl<'iterator> BTreeIterator<'iterator, LeafNodeIterator<'iterator>> for LeafNo
     fn iterator(&'iterator self) -> LeafNodeIterator<'iterator> {
         assert!(self.is_leaf());
 
-        return LeafNodeIterator::new(self);
+        LeafNodeIterator::new(self)
     }
 }

@@ -30,11 +30,11 @@ pub(in crate::btree) struct LeafNode {
 
 impl BTreeNodeEncodable for LeafNode {
     fn header(&self) -> &NodeHeader {
-        return &self.header;
+        &self.header
     }
 
     fn data_space(&self) -> &Vec<u8> {
-        return &self.data_space;
+        &self.data_space
     }
 }
 impl BTreeNodeCommon for LeafNode {}
@@ -144,7 +144,7 @@ impl LeafNode {
             (KeyReferenceLeaf::bytes_per_item() as u32);
         // Allow 2/3
         let allow_empty_node_to_fit = (empty_node_can_fit / 3) * 2;
-        return value.len() <= (allow_empty_node_to_fit as usize);
+        value.len() <= (allow_empty_node_to_fit as usize)
     }
 
     fn delete_by_index(&mut self, inx: PageSpace) {
@@ -166,15 +166,15 @@ impl LeafNode {
         let key_ref_by_inx = |inx| KeyReferenceLeaf::new_by_index(&self.data_space, inx);
         let key_by_key_ref = |key_ref: &KeyReferenceLeaf| key_ref.key;
 
-        return binary_search_over_fn(
+        binary_search_over_fn(
             target_key,
             elements_in_node,
             &key_ref_by_inx,
             &key_by_key_ref
-        );
+        )
     }
 
     pub(crate) fn gt_high_key(&self, key: u32) -> bool {
-        return !self.is_empty() && key > self.last_key();
+        !self.is_empty() && key > self.last_key()
     }
 }

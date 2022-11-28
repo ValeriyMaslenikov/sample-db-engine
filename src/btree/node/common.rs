@@ -14,23 +14,23 @@ pub(in crate::btree) enum BTreeNode {
 
 impl BTreeNode {
     pub(in crate::btree) fn is_leaf(&self) -> bool {
-        return matches!(self, BTreeNode::Leaf(..));
+        matches!(self, BTreeNode::Leaf(..))
     }
 
     pub(in crate::btree) fn is_internal(&self) -> bool {
-        return matches!(self, BTreeNode::Internal(..));
+        matches!(self, BTreeNode::Internal(..))
     }
 
     pub(in crate::btree) fn common(&self) -> &dyn BTreeNodeCommon {
-        return match self {
+        match self {
             BTreeNode::Leaf(x) => x,
             BTreeNode::Internal(x) => x,
-        };
+        }
     }
 
     pub(in crate::btree) fn internal(&self) -> &InternalNode {
         if let BTreeNode::Internal(internal_node) = self {
-            return internal_node;
+            internal_node
         } else {
             unreachable!("Current enum value stores Internal node, but Leaf is requested")
         }
@@ -38,7 +38,7 @@ impl BTreeNode {
 
     pub(in crate::btree) fn leaf(&self) -> &LeafNode {
         if let BTreeNode::Leaf(leaf_node) = self {
-            return leaf_node;
+            leaf_node
         } else {
             unreachable!("Current enum value stores Internal node, but Leaf is requested")
         }
@@ -77,7 +77,7 @@ pub(in crate::btree) trait BTreeNodeCommon: BTreeNodeEncodable {
     }
 
     fn is_index_present(&self, index: PageSpace) -> bool {
-        return index < self.len();
+        index < self.len()
     }
 
     fn is_empty(&self) -> bool {

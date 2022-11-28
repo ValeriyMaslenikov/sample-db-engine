@@ -8,12 +8,12 @@ use super::{ internal::InternalNode, leaf::LeafNode, common::BTreeNode };
 
 #[allow(dead_code)]
 pub(in crate::btree) fn print_internal_node(node: &InternalNode, page_id: Option<PageId>) {
-    return print_node(&BTreeNode::Internal(node.clone()), page_id);
+    print_node(&BTreeNode::Internal(node.clone()), page_id)
 }
 
 #[allow(dead_code)]
 pub(in crate::btree) fn print_leaf_node(node: &LeafNode, page_id: Option<PageId>) {
-    return print_node(&BTreeNode::Leaf(node.clone()), page_id);
+    print_node(&BTreeNode::Leaf(node.clone()), page_id)
 }
 
 #[cfg(not(debug_assertions))]
@@ -39,14 +39,14 @@ pub(in crate::btree) fn print_node(node: &BTreeNode, page_id: Option<PageId>) {
         BTreeNode::Internal(x) => {
             print!("Internal:");
             for n in 0..len {
-                let key_ref = KeyReferenceInternal::new_by_index(&x.data_space(), n);
+                let key_ref = KeyReferenceInternal::new_by_index(x.data_space(), n);
                 println!("\t{:?}", key_ref);
             }
         }
         BTreeNode::Leaf(x) => {
             print!("Leaf:");
             for n in 0..len {
-                let key_ref = KeyReferenceLeaf::new_by_index(&x.data_space(), n);
+                let key_ref = KeyReferenceLeaf::new_by_index(x.data_space(), n);
                 println!("{:?}", key_ref);
             }
         }

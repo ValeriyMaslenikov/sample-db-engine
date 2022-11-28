@@ -15,7 +15,7 @@ pub(in crate::btree) fn save_paged_node<T>(
 ) -> PagerResult<PageId>
     where T: BTreeNodeEncodable + BTreeNodeRepresentation
 {
-    return save_node(pager, &paged_node.node, Some(paged_node.page_id));
+    save_node(pager, &paged_node.node, Some(paged_node.page_id))
 }
 
 pub(in crate::btree) fn save_node<T>(
@@ -37,5 +37,5 @@ pub(super) fn node_to_buffer<T: BTreeNodeEncodable>(node: &T, buffer: &mut [u8])
 
     assert_eq!(buffer.len(), node.data_space().len() + (NODE_HEADER_BYTES as usize));
 
-    buffer[NODE_HEADER_BYTES as usize..].clone_from_slice(&node.data_space());
+    buffer[NODE_HEADER_BYTES as usize..].clone_from_slice(node.data_space());
 }

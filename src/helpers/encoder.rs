@@ -19,9 +19,9 @@ pub fn encode<E: Encode>(value: &E, buffer: &mut [u8]) -> EncodedBytes {
 }
 
 pub fn decode_unwrapped<E: Decode>(buffer: &[u8]) -> E {
-    bincode::decode_from_slice(&buffer, BINCODE_CONFIG).unwrap().0
+    bincode::decode_from_slice(buffer, BINCODE_CONFIG).unwrap().0
 }
 
 pub fn decode<E: Decode>(buffer: &[u8]) -> Result<E, DecodeError> {
-    bincode::decode_from_slice(&buffer, BINCODE_CONFIG).map(|(res, _)| -> E { res })
+    bincode::decode_from_slice(buffer, BINCODE_CONFIG).map(|(res, _)| -> E { res })
 }

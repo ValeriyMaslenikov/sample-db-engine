@@ -48,17 +48,17 @@ pub(in crate::btree::operations) fn compute_dividers<'a>(
         last_child.is_some() && last_child.unwrap().key_reference.page_id == existing.page_id;
 
     if existing_node_is_last_in_parent {
-        return Dividers {
+        Dividers {
             replace: vec![Divider { divider: divider_btw_nodes, paged_node: existing }],
             insert: vec![Divider { divider: last_key_of_new_node, paged_node: new }],
-        };
+        }
     } else {
         let existing_divider = parent_node.key_reference_for(&existing.node);
 
-        return Dividers {
+        Dividers {
             replace: vec![Divider { divider: divider_btw_nodes, paged_node: existing }],
             insert: vec![Divider { divider: existing_divider.key, paged_node: new }],
-        };
+        }
     }
 }
 

@@ -14,9 +14,9 @@ pub(in crate::btree) fn buffer_to_node(node_buffer: &[u8]) -> BTreeNode {
 
     let data_space = node_buffer[NODE_HEADER_BYTES as usize..].to_vec();
     if header.is_internal() {
-        return BTreeNode::Internal(InternalNode { header, data_space });
+        BTreeNode::Internal(InternalNode { header, data_space })
     } else if header.is_leaf() {
-        return BTreeNode::Leaf(LeafNode { header, data_space });
+        BTreeNode::Leaf(LeafNode { header, data_space })
     } else {
         unreachable!("We support only leafs and internal nodes");
     }

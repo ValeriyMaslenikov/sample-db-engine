@@ -51,7 +51,7 @@ impl InternalNode {
         target_key: DatabaseKey
     ) -> (PageSpace, KeyReferenceInternal) {
         if let (inx, Some(key_ref)) = self.find_position_for(target_key, FindFor::Child) {
-            return (inx, key_ref);
+            (inx, key_ref)
         } else {
             unreachable!();
         }
@@ -61,7 +61,7 @@ impl InternalNode {
         &self,
         target_key: DatabaseKey
     ) -> (PageSpace, Option<KeyReferenceInternal>) {
-        return self.find_position_for(target_key, FindFor::Insert);
+        self.find_position_for(target_key, FindFor::Insert)
     }
 
     /// Knowing that Key Ref data for Non-leaf node will look like this:

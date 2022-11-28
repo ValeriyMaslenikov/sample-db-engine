@@ -37,7 +37,7 @@ impl KeyReferenceGeneral for KeyReferenceLeaf {
 
     fn new_by_index(buf: &[u8], index: u32) -> Self {
         let offset = Self::offset_by_index(index);
-        return decode_unwrapped(&buf[offset..offset + (LEAF_ITEMS_KEY_REFERENCE_BYTES as usize)]);
+        decode_unwrapped(&buf[offset..offset + (LEAF_ITEMS_KEY_REFERENCE_BYTES as usize)])
     }
 
     fn save_by_index(&self, buf: &mut [u8], index: u32) {
@@ -46,6 +46,6 @@ impl KeyReferenceGeneral for KeyReferenceLeaf {
     }
 
     fn bytes_per_item() -> u8 {
-        return LEAF_ITEMS_KEY_REFERENCE_BYTES;
+        LEAF_ITEMS_KEY_REFERENCE_BYTES
     }
 }

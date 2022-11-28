@@ -32,12 +32,12 @@ fn need_initialization(pager: &Pager) -> bool {
 
     let result = decode::<NodeHeader>(node_header_buffer);
 
-    return result.is_err();
+    result.is_err()
 }
 
 // Clients will read as "initialize root if  needed"
 pub(crate) fn root_node_if_needed(pager: &mut Pager) {
-    if need_initialization(&pager) {
+    if need_initialization(pager) {
         debug!("Initializing the root node within the metapage");
         let root_node = create_root_node();
 

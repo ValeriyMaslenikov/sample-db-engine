@@ -33,17 +33,17 @@ fn iterator_item(pager: &Pager, paged: PagedNode<BTreeNode>) -> IteratorItem {
         .iterator()
         .map(|item| {
             let page_id = item.key_reference.page_id;
-            return DividerAndPagedNode {
+            DividerAndPagedNode {
                 divider: item.key_reference.key,
                 paged: PagedNode { page_id, node: load_node(pager, page_id).unwrap() },
-            };
+            }
         })
         .collect();
 
-    return IteratorItem {
+    IteratorItem {
         parent: paged,
         children,
-    };
+    }
 }
 pub(super) struct BTreePreorderIterator<'a> {
     stack: Vec<PagedNode<BTreeNode>>,
@@ -72,6 +72,6 @@ impl<'a> Iterator for BTreePreorderIterator<'a> {
             return Some(iterator_item);
         }
 
-        return None;
+        None
     }
 }

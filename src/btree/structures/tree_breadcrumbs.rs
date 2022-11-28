@@ -21,13 +21,13 @@ pub(in crate::btree) struct TreeBreadcrumbs {
 
 impl TreeBreadcrumbs {
     pub(in crate::btree) fn contains_leaf(&self) -> bool {
-        return self.leaf.is_some();
+        self.leaf.is_some()
     }
 
     pub(in crate::btree) fn leaf(&self) -> Option<LeafBreadcrumb> {
         assert!(self.contains_leaf());
 
-        return self.leaf.clone();
+        self.leaf.clone()
     }
 
     pub(in crate::btree) fn get_parent(&self, inx: usize) -> Option<InternalBreadcrumb> {
@@ -48,10 +48,10 @@ impl TreeBreadcrumbs {
         }
     }
     pub(in crate::btree) fn new() -> TreeBreadcrumbs {
-        return TreeBreadcrumbs {
+        TreeBreadcrumbs {
             leaf: None,
             parents: vec![],
-        };
+        }
     }
 
     pub(in crate::btree) fn last_parent(&self) -> Option<InternalBreadcrumb> {

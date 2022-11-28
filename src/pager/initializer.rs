@@ -12,12 +12,12 @@ impl Pager {
     ) -> PagerResult<DatabaseHeader> {
         debug!("Checking the file metadata to create the database header if it is absent");
         let database_header;
-        if need_initialization(&main_db_file)? {
+        if need_initialization(main_db_file)? {
             debug!("Database file is empty – initializing the metapage with header");
             database_header = DatabaseHeader::default();
         } else {
             debug!("Database file is not empty – reading the metapage");
-            database_header = DatabaseHeader::load(&main_db_file)?;
+            database_header = DatabaseHeader::load(main_db_file)?;
             info!("Header is loaded from the metapage: {:?}", database_header);
         }
 

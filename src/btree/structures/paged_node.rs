@@ -33,14 +33,14 @@ impl<T: BTreeNodeRepresentation> PartialOrd for PagedNode<T> {
 }
 impl<T: BTreeNodeRepresentation> Ord for PagedNode<T> {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        return self.page_id.cmp(&other.page_id);
+        self.page_id.cmp(&other.page_id)
     }
 }
 
 impl PagedNode<BTreeNode> {
     pub(in crate::btree) fn to_leaf(&self) -> PagedNode<LeafNode> {
         if let BTreeNode::Leaf(leaf_node) = self.node.clone() {
-            return PagedNode { page_id: self.page_id, node: leaf_node };
+            PagedNode { page_id: self.page_id, node: leaf_node }
         } else {
             unreachable!("Current enum value stores Internal node, but Leaf is requested")
         }
@@ -48,7 +48,7 @@ impl PagedNode<BTreeNode> {
 
     pub(in crate::btree) fn to_internal(&self) -> PagedNode<InternalNode> {
         if let BTreeNode::Internal(internal_node) = self.node.clone() {
-            return PagedNode { page_id: self.page_id, node: internal_node };
+            PagedNode { page_id: self.page_id, node: internal_node }
         } else {
             unreachable!("Current enum value stores Leaf node, but Internal is requested")
         }

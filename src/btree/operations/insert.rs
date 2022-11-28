@@ -18,7 +18,7 @@ struct SplitResult<T: BTreeNodeRepresentation> {
 }
 
 pub(crate) fn do_insert<'a>(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -> PagerResult<()> {
-    if !LeafNode::can_fit_into_empty_node(&value) {
+    if !LeafNode::can_fit_into_empty_node(value) {
         todo!();
     }
 
@@ -30,13 +30,13 @@ pub(crate) fn do_insert<'a>(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -
 
     let (_, existing_key_ref) = paged_leaf.node.find_position_for(key);
 
-    if !existing_key_ref.is_none() {
+    if existing_key_ref.is_some() {
         todo!("Case when id is already exists");
     }
 
     let split_result;
 
-    if !paged_leaf.node.can_fit(&value) {
+    if !paged_leaf.node.can_fit(value) {
         let to_split_page_id = paged_leaf.page_id;
         split_result = split_and_persist_nodes(pager, &mut paged_leaf, &mut tree_breadcrumbs)?;
 
@@ -56,8 +56,8 @@ pub(crate) fn do_insert<'a>(pager: &mut Pager, key: DatabaseKey, value: &[u8]) -
 
     let actualize_high_key = paged_leaf.node.gt_high_key(key) && tree_breadcrumbs.has_parents();
 
-    assert!(paged_leaf.node.can_fit(&value));
-    paged_leaf.node.put(key, &value);
+    assert!(paged_leaf.node.can_fit(value));
+    paged_leaf.node.put(key, value);
 
     save_paged_node(pager, &paged_leaf)?;
 
@@ -102,7 +102,7 @@ fn split_and_persist_nodes<'a, 'b>(
     }
     // we replace existing and insert the new one
     let new_copy = PagedNode { node: new_node.clone(), page_id: new_node_page_id };
-    let dividers = compute_dividers(&parent_node, &to_split, &new_copy);
+    let dividers = compute_dividers(parent_node, to_split, &new_copy);
 
     for replace in dividers.replace {
         parent_node.replace_divider(
@@ -148,7 +148,7 @@ fn find_leaf_for<'pager>(pager: &'pager Pager, key: DatabaseKey) -> TreeBreadcru
 
         result.push(PagedNode {
             page_id: child_page_id,
-            node: load_node(&pager, child_page_id).unwrap(),
+            node: load_node(pager, child_page_id).unwrap(),
         });
     }
 }
