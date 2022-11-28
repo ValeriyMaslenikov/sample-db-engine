@@ -14,13 +14,13 @@ type InternalBreadcrumb = Rc<RefCell<PagedNode<InternalNode>>>;
 ///
 /// Parents are indexed from the end, in the following example the vector will store (A, B, C),
 /// But when asking for the first parent – it's C, not A.
-pub(in crate::btree)struct TreeBreadcrumbs {
+pub(in crate::btree) struct TreeBreadcrumbs {
     leaf: Option<LeafBreadcrumb>,
     parents: Vec<InternalBreadcrumb>,
 }
 
 impl TreeBreadcrumbs {
-    pub(in crate::btree)fn contains_leaf(&self) -> bool {
+    pub(in crate::btree) fn contains_leaf(&self) -> bool {
         return self.leaf.is_some();
     }
 

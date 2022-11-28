@@ -1,9 +1,6 @@
 use std::{ os::unix::prelude::FileExt, fs::File, io::ErrorKind, borrow::Cow };
 
-use crate::{
-    aliases::{ PageId },
-    pager::constants::DATABASE_HEADER_BYTES,
-};
+use crate::{ aliases::{ PageId }, pager::constants::DATABASE_HEADER_BYTES };
 
 use super::{
     constants::{ PAGE_SIZE_BYTES, METAPAGE_ID },
@@ -67,8 +64,7 @@ impl Pager {
                     &mut page_buffer[0..DATABASE_HEADER_BYTES as usize]
                 );
 
-                let page_buffer_payload_slice =
-                    &mut page_buffer[DATABASE_HEADER_BYTES as usize..];
+                let page_buffer_payload_slice = &mut page_buffer[DATABASE_HEADER_BYTES as usize..];
                 assert!(page_buffer_payload_slice.len() == page_payload.len());
                 page_buffer_payload_slice.clone_from_slice(page_payload);
 

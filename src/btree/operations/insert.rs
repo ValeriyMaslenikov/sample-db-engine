@@ -1,5 +1,5 @@
 use crate::aliases::PageId;
-use crate::btree::node::common::{BTreeNode, BTreeIterator};
+use crate::btree::node::common::{ BTreeNode, BTreeIterator };
 use crate::btree::node::internal::InternalNode;
 use crate::btree::node::key_reference_internal::KeyReferenceInternal;
 use crate::btree::operations::helpers::compute_dividers::compute_dividers;

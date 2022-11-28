@@ -1,15 +1,13 @@
 use log::debug;
 
 use crate::{
-    pager::{
-        Pager,
-        constants::{ METAPAGE_SIZE_BYTES, METAPAGE_ID, DATABASE_HEADER_BYTES },
-    },
+    pager::{ Pager, constants::{ METAPAGE_SIZE_BYTES, METAPAGE_ID, DATABASE_HEADER_BYTES } },
     btree::{
         node::{ leaf::LeafNode, header::NodeHeader },
-        persistance::{ saver::save_node }, constants::NODE_HEADER_BYTES,
+        persistance::{ saver::save_node },
+        constants::NODE_HEADER_BYTES,
     },
-    helpers::encoder::decode
+    helpers::encoder::decode,
 };
 
 fn create_root_node() -> LeafNode {

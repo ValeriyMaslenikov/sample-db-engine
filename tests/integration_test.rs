@@ -33,14 +33,12 @@ mod helpers {
 
         return connection;
     }
-
 }
 
 #[cfg(feature = "integration")]
 #[test]
 fn test_different_value_length() {
     let mut connection = helpers::new_file_connection(stringify!(test_different_value_length));
-
 
     let mut value: Vec<u8> = vec![];
     for i in 0..1024_u32 {

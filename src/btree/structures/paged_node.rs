@@ -1,10 +1,8 @@
 use std::cmp::Ordering;
 
-use crate::{aliases::PageId, btree::node::common::{BTreeNodeEncodable, BTreeNode}};
+use crate::{ aliases::PageId, btree::node::common::{ BTreeNodeEncodable, BTreeNode } };
 
-use super::super::{
-    node::{ leaf::LeafNode, internal::InternalNode },
-};
+use super::super::{ node::{ leaf::LeafNode, internal::InternalNode } };
 
 /// Trait is used to limit the possible generics value for PageIdAndNode
 pub(in crate::btree) trait BTreeNodeRepresentation {}
@@ -16,8 +14,8 @@ impl BTreeNodeRepresentation for InternalNode {}
 
 #[derive(Clone)]
 pub(in crate::btree) struct PagedNode<T: BTreeNodeRepresentation> {
-    pub(in crate::btree)page_id: PageId,
-    pub(in crate::btree)node: T,
+    pub(in crate::btree) page_id: PageId,
+    pub(in crate::btree) node: T,
 }
 
 impl<T: BTreeNodeRepresentation> PartialEq for PagedNode<T> {
@@ -40,7 +38,7 @@ impl<T: BTreeNodeRepresentation> Ord for PagedNode<T> {
 }
 
 impl PagedNode<BTreeNode> {
-    pub(in crate::btree)fn to_leaf(&self) -> PagedNode<LeafNode> {
+    pub(in crate::btree) fn to_leaf(&self) -> PagedNode<LeafNode> {
         if let BTreeNode::Leaf(leaf_node) = self.node.clone() {
             return PagedNode { page_id: self.page_id, node: leaf_node };
         } else {
@@ -48,7 +46,7 @@ impl PagedNode<BTreeNode> {
         }
     }
 
-    pub(in crate::btree)fn to_internal(&self) -> PagedNode<InternalNode> {
+    pub(in crate::btree) fn to_internal(&self) -> PagedNode<InternalNode> {
         if let BTreeNode::Internal(internal_node) = self.node.clone() {
             return PagedNode { page_id: self.page_id, node: internal_node };
         } else {

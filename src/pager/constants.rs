@@ -1,4 +1,4 @@
-use crate::aliases::{PageSpace, PageId};
+use crate::aliases::{ PageSpace, PageId };
 
 /// Defines the magic header string "Simple Data Engine", which is used to verify that the loaded
 /// file is the database file of this engine

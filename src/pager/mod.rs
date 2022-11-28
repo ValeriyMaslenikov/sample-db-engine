@@ -51,7 +51,7 @@ impl Pager {
         self.database_header.root_page_id
     }
 
-    pub fn new_root(&mut self, new_root_page_id: PageId) -> PagerResult<()>{
+    pub fn new_root(&mut self, new_root_page_id: PageId) -> PagerResult<()> {
         self.database_header.root_page_id = new_root_page_id;
         self.save_db_header()
     }

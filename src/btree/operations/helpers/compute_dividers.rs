@@ -1,8 +1,12 @@
 use crate::{
-    helpers::{average::average},
+    helpers::{ average::average },
     aliases::{ DatabaseKey },
     btree::{
-        node::{ internal::InternalNode, leaf::LeafNode, common::{BTreeIterator, BTreeNodeCommon} },
+        node::{
+            internal::InternalNode,
+            leaf::LeafNode,
+            common::{ BTreeIterator, BTreeNodeCommon },
+        },
         structures::paged_node::PagedNode,
     },
 };

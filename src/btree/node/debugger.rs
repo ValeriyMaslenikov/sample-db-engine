@@ -1,7 +1,7 @@
 /// This is the draft of the code used for debugging purposes.
-/// You can display the tree, or the node separately in the human-readable format to verify the 
+/// You can display the tree, or the node separately in the human-readable format to verify the
 /// expected results before/after/in the middle of some operation
-/// 
+///
 use crate::{ aliases::PageId, pager::Pager };
 
 use super::{ internal::InternalNode, leaf::LeafNode, common::BTreeNode };
@@ -28,7 +28,8 @@ pub(in crate::btree) fn print_node(node: &BTreeNode, page_id: Option<PageId>) {
     use crate::btree::node::{
         key_reference_leaf::KeyReferenceLeaf,
         key_reference_internal::KeyReferenceInternal,
-        key_reference::KeyReferenceGeneral, common::BTreeNodeEncodable,
+        key_reference::KeyReferenceGeneral,
+        common::BTreeNodeEncodable,
     };
 
     let len = node.common().len();
@@ -61,7 +62,8 @@ fn print_tree_internal(pager: &Pager, page_id: PageId, indent: usize) {
 #[cfg(debug_assertions)]
 fn print_tree_internal(pager: &Pager, page_id: PageId, indent: usize) {
     use crate::btree::{
-        persistance::loader::load_node, node::common::{BTreeNodeEncodable, BTreeIterator},
+        persistance::loader::load_node,
+        node::common::{ BTreeNodeEncodable, BTreeIterator },
     };
 
     let node = load_node(pager, page_id).unwrap();

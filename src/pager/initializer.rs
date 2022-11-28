@@ -2,16 +2,14 @@ use std::{ fs::File };
 
 use log::{ info, debug };
 
-use crate::{
-    pager::{
-        db_header::DatabaseHeader,
-    },
-};
+use crate::{ pager::{ db_header::DatabaseHeader } };
 
 use super::{ PagerResult, Pager };
 
 impl Pager {
-    pub(super) fn load_header_and_init_if_needed(main_db_file: &mut File) -> PagerResult<DatabaseHeader> {
+    pub(super) fn load_header_and_init_if_needed(
+        main_db_file: &mut File
+    ) -> PagerResult<DatabaseHeader> {
         debug!("Checking the file metadata to create the database header if it is absent");
         let database_header;
         if need_initialization(&main_db_file)? {
@@ -26,7 +24,6 @@ impl Pager {
         Ok(database_header)
     }
 }
-
 
 fn need_initialization(main_db_file: &File) -> PagerResult<bool> {
     let file_metadata = main_db_file.metadata()?;

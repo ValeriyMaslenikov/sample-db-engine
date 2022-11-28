@@ -2,15 +2,23 @@ use bincode::{ Encode, Decode };
 
 use crate::{
     aliases::{ PageSpace, DatabaseKey },
-    btree::{node::{
-        key_reference_leaf::KeyReferenceLeaf,
-        key_reference::KeyReferenceGeneral, common::BTreeIterator,
-    }, constants::NODE_HEADER_BYTES},
+    btree::{
+        node::{
+            key_reference_leaf::KeyReferenceLeaf,
+            key_reference::KeyReferenceGeneral,
+            common::BTreeIterator,
+        },
+        constants::NODE_HEADER_BYTES,
+    },
     pager::constants::PAGE_SIZE_BYTES,
     helpers::div_ceil::div_ceil,
 };
 
-use super::{ header::NodeHeader, helpers::data_space_offset, common::{BTreeNodeEncodable, BTreeNodeCommon} };
+use super::{
+    header::NodeHeader,
+    helpers::data_space_offset,
+    common::{ BTreeNodeEncodable, BTreeNodeCommon },
+};
 
 use crate::helpers::binary_search::binary_search_over_fn;
 
@@ -32,7 +40,7 @@ impl BTreeNodeEncodable for LeafNode {
 impl BTreeNodeCommon for LeafNode {}
 
 impl LeafNode {
-    pub(in crate::btree)fn new(page_size_bytes: PageSpace) -> Self {
+    pub(in crate::btree) fn new(page_size_bytes: PageSpace) -> Self {
         let header = NodeHeader::new_leaf(page_size_bytes);
         LeafNode {
             data_space: vec![0_u8; data_space_offset(header.free_space_end_offset) as usize],
@@ -40,7 +48,7 @@ impl LeafNode {
         }
     }
 
-    pub(in crate::btree)fn split(&mut self) -> Self {
+    pub(in crate::btree) fn split(&mut self) -> Self {
         assert!(self.len() > 1, "We may split the node only in case if it contains 2+ elements");
 
         /*
@@ -129,7 +137,7 @@ impl LeafNode {
         self.header.free_space_start_offset += KeyReferenceLeaf::bytes_per_item() as PageSpace;
     }
 
-    pub(in crate::btree)fn can_fit_into_empty_node(value: &[u8]) -> bool {
+    pub(in crate::btree) fn can_fit_into_empty_node(value: &[u8]) -> bool {
         let empty_node_can_fit =
             PAGE_SIZE_BYTES -
             (NODE_HEADER_BYTES as u32) -
@@ -148,7 +156,7 @@ impl LeafNode {
         }
     }
 
-    pub(in crate::btree)fn find_position_for(
+    pub(in crate::btree) fn find_position_for(
         &self,
         target_key: DatabaseKey
     ) -> (PageSpace, Option<KeyReferenceLeaf>) {

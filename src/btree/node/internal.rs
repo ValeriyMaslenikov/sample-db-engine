@@ -6,7 +6,7 @@ use crate::btree::node::key_reference::KeyReferenceGeneral;
 
 use crate::helpers::binary_search::binary_search_over_fn;
 
-use super::common::{BTreeNodeEncodable, BTreeNodeCommon, BTreeIterator};
+use super::common::{ BTreeNodeEncodable, BTreeNodeCommon, BTreeIterator };
 use super::leaf::LeafNode;
 use super::{
     header::NodeHeader,
@@ -161,7 +161,6 @@ impl InternalNode {
         self.get_free_space() >= (KeyReferenceInternal::bytes_per_item() as u32)
     }
 
- 
     pub(in crate::btree) fn get_child_page_id_by_key(&self, key: u32) -> PageId {
         self.find_position_for_child(key).1.page_id
     }

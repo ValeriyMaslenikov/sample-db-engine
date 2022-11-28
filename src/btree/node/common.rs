@@ -1,7 +1,6 @@
-use crate::aliases::{DatabaseKey, PageSpace};
+use crate::aliases::{ DatabaseKey, PageSpace };
 
-use super::{leaf::LeafNode, internal::InternalNode, header::NodeHeader};
-
+use super::{ leaf::LeafNode, internal::InternalNode, header::NodeHeader };
 
 // ! ||--------------------------------------------------------------------------------||
 // ! ||                                   BTree Node                                   ||
@@ -14,22 +13,22 @@ pub(in crate::btree) enum BTreeNode {
 }
 
 impl BTreeNode {
-    pub(in crate::btree)fn is_leaf(&self) -> bool {
+    pub(in crate::btree) fn is_leaf(&self) -> bool {
         return matches!(self, BTreeNode::Leaf(..));
     }
 
-    pub(in crate::btree)fn is_internal(&self) -> bool {
+    pub(in crate::btree) fn is_internal(&self) -> bool {
         return matches!(self, BTreeNode::Internal(..));
     }
 
-    pub(in crate::btree)fn common(&self) -> &dyn BTreeNodeCommon {
+    pub(in crate::btree) fn common(&self) -> &dyn BTreeNodeCommon {
         return match self {
             BTreeNode::Leaf(x) => x,
             BTreeNode::Internal(x) => x,
         };
     }
 
-    pub(in crate::btree)fn internal(&self) -> &InternalNode {
+    pub(in crate::btree) fn internal(&self) -> &InternalNode {
         if let BTreeNode::Internal(internal_node) = self {
             return internal_node;
         } else {
@@ -37,7 +36,7 @@ impl BTreeNode {
         }
     }
 
-    pub(in crate::btree)fn leaf(&self) -> &LeafNode {
+    pub(in crate::btree) fn leaf(&self) -> &LeafNode {
         if let BTreeNode::Leaf(leaf_node) = self {
             return leaf_node;
         } else {

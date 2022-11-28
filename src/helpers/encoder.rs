@@ -1,7 +1,8 @@
 use bincode::{
     config::{ Configuration, NoLimit, Fixint, LittleEndian, SkipFixedArrayLength },
     Encode,
-    Decode, error::DecodeError,
+    Decode,
+    error::DecodeError,
 };
 
 type EncodedBytes = usize;

@@ -1,7 +1,6 @@
 use bincode::{ Encode, Decode };
 
-use crate::{ aliases::PageSpace, btree::{constants::NODE_HEADER_BYTES} };
-
+use crate::{ aliases::PageSpace, btree::{ constants::NODE_HEADER_BYTES } };
 
 #[derive(Encode, Decode, PartialEq, Eq, Debug, Clone)]
 pub(in crate::btree) enum NodeType {

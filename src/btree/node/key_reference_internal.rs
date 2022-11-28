@@ -1,9 +1,11 @@
 use bincode::{ Encode, Decode };
 
-use crate::{aliases::{DatabaseKey, PageId, PageSpace}, helpers::encoder::{decode_unwrapped, encode}};
+use crate::{
+    aliases::{ DatabaseKey, PageId, PageSpace },
+    helpers::encoder::{ decode_unwrapped, encode },
+};
 
 use super::key_reference::KeyReferenceGeneral;
-
 
 /// Single entry of items key reference will occupy this amount of bytes
 const NON_LEAF_ITEMS_KEY_REFERENCE_BYTES: u8 = 8;
@@ -30,12 +32,12 @@ impl KeyReferenceGeneral for KeyReferenceInternal {
 
     fn new_by_index(buf: &[u8], index: u32) -> Self {
         let offset = Self::offset_by_index(index);
-        return decode_unwrapped(&buf[offset..offset + Self::bytes_per_item() as usize]);
+        return decode_unwrapped(&buf[offset..offset + (Self::bytes_per_item() as usize)]);
     }
 
     fn save_by_index(&self, buf: &mut [u8], index: u32) {
         let offset = Self::offset_by_index(index);
-        encode(&self, &mut buf[offset..offset + Self::bytes_per_item() as usize]);
+        encode(&self, &mut buf[offset..offset + (Self::bytes_per_item() as usize)]);
     }
 
     fn bytes_per_item() -> u8 {
@@ -43,6 +45,4 @@ impl KeyReferenceGeneral for KeyReferenceInternal {
     }
 }
 
-trait KeyReferenceLoader {
-
-}
+trait KeyReferenceLoader {}
