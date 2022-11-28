@@ -7,6 +7,48 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "Run unit tests",
+            "cargo": {
+                "args": ["test", "--no-run", "--lib"]
+            },
+            "args": []
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run integration tests",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test",
+                    "integration_test",
+                    "--features",
+                    "integration"
+                ],
+                "filter": {
+                    "name": "integration_test",
+                    "kind": "test"
+                }
+            },
+            "args": [
+                // To enable printing the stdout to the console
+                //"--nocapture"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch demo app for library (random new file)",
+            "cargo": {
+                "args": ["build", "--bin", "engine-demo"]
+            },
+            "env": { "RUST_LOG": "DEBUG" },
+            "args": ["./db/${command:extension.commandvariable.UUID}.data"]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "Launch demo app for library (valid file)",
             "cargo": {
                 "args": ["build", "--bin", "engine-demo"]

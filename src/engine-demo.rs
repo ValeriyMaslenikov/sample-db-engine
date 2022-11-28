@@ -20,5 +20,14 @@ fn main() {
         error!("Connection to database cannot be established: {}", connection_result.unwrap_err());
     } else {
         info!("Connection to database engine is succesfully established");
+        let mut connection = connection_result.unwrap();
+
+        let random_data = vec!["K".as_bytes()[0]; 256];
+
+        for i in 1..2000 {
+            connection.insert(i, &random_data).unwrap();
+        }
+
+        connection.insert(0, "Hello world!".as_bytes()).unwrap();
     }
 }
