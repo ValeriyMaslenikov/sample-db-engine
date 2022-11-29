@@ -52,3 +52,9 @@ impl Connection {
         do_check_tree_contract(&self.pager)
     }
 }
+
+impl Drop for Connection {
+    fn drop(&mut self) {
+        self.pager.close().unwrap();
+    }
+}

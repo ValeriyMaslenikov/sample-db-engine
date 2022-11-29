@@ -1,6 +1,6 @@
 use log::{ debug, info };
 use std::fs::File;
-use std::io::{ Error as IOError };
+use std::io::{ Error as IOError, Write };
 use std::{ result::Result };
 
 use crate::aliases::{ PageId, PageBuffer };
@@ -71,5 +71,9 @@ impl Pager {
 
     pub(super) fn new_page_buffer() -> PageBuffer {
         vec![0_u8; PAGE_SIZE_BYTES as usize]
+    }
+
+    pub(super) fn close(&mut self) -> PagerResult<()> {
+        self.main_db_file.flush()
     }
 }
