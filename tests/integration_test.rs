@@ -14,7 +14,7 @@ const BINCODE_CONFIG: Configuration<LittleEndian, Fixint, SkipFixedArrayLength> 
     ::standard()
     .with_fixed_int_encoding()
     .skip_fixed_array_length();
-    
+
 #[cfg(feature = "integration")]
 mod helpers {
     use std::fs;
@@ -113,16 +113,14 @@ fn test_structure_of_leaf_will_correspond_described_in_article() {
     // 4096, it's 4096 - 100 (database header size).
     assert_eq!(decoded.3, 4088 - 100);
 
-    // Checking free space, in article it's mentioned as 4016. 
+    // Checking free space, in article it's mentioned as 4016.
     // 100 - db header, 16 - node header, 2x 12 - node header, 3 – word "ten", 5 - word "three"
-    assert_eq!(decoded.3 - decoded.2, PAGE_SIZE - 100 - 16 -  12 - 12 - 3 - 5);
-    // The same as previous, to validate that in article specified the same value as produced by 
+    assert_eq!(decoded.3 - decoded.2, PAGE_SIZE - 100 - 16 - 12 - 12 - 3 - 5);
+    // The same as previous, to validate that in article specified the same value as produced by
     // the program
     assert_eq!(decoded.3 - decoded.2, 4048 - 100);
 
     assert_eq!(decoded.4, 2);
-
-
 
     // Verify the key reference
     let (key_ref_decoded, decoded_size): (
@@ -144,7 +142,6 @@ fn test_structure_of_leaf_will_correspond_described_in_article() {
     assert_eq!(key_ref_decoded.3, 10);
     assert_eq!(key_ref_decoded.4 as usize, word_ten_as_bytes.len());
     assert_eq!(key_ref_decoded.5 as usize, word_ten_offset);
-
 
     // Verify data part
     // First one was added "Three", it should be in the end
