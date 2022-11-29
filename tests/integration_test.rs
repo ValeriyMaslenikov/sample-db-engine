@@ -144,7 +144,7 @@ fn test_structure_of_leaf_will_correspond_described_in_article() {
     assert_eq!(key_ref_decoded.5 as usize, word_ten_offset);
 
     // Verify data part
-    // First one was added "Three", it should be in the end
+    // First one was added "Ten", it should be in the end
     assert_eq!(node_buffer[word_ten_offset..], *word_ten_as_bytes);
     assert_eq!(node_buffer[word_three_offset..word_ten_offset], *word_three_as_bytes);
 }
