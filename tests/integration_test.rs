@@ -1,8 +1,4 @@
-use std::{
-    fs::File,
-    os::{ unix::prelude::FileExt },
-    mem::size_of,
-};
+use std::{ fs::File, os::{ unix::prelude::FileExt }, mem::size_of };
 
 use bincode::{
     decode_from_slice,
