@@ -1,7 +1,6 @@
 use std::{
     fs::File,
-    io::Read,
-    os::{ unix::prelude::FileExt, macos::fs::MetadataExt },
+    os::{ unix::prelude::FileExt },
     mem::size_of,
 };
 
