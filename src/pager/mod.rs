@@ -1,17 +1,20 @@
-use constants::PAGE_SIZE_BYTES;
 use log::{ debug, info };
 use std::fs::File;
 use std::io::{ Error as IOError, Write };
-use std::result::Result;
-use std::vec;
+use std::{ result::Result };
 
-use crate::pager::constants::DATABASE_HEADER_BYTES;
-use crate::pager::db_header::DatabaseHeader;
+use crate::aliases::{ PageId, PageBuffer };
 
-mod constants;
+use self::constants::{ PAGE_SIZE_BYTES, METAPAGE_SIZE_BYTES };
+use self::db_header::DatabaseHeader;
+
+pub mod constants;
+pub mod errors;
 mod db_header;
+mod initializer;
+mod persistance;
 
-type PagerResult<T> = Result<T, IOError>;
+pub type PagerResult<T> = Result<T, IOError>;
 
 #[derive(Debug)]
 pub struct Config {
@@ -20,14 +23,15 @@ pub struct Config {
 
 #[derive(Debug)]
 pub struct Pager {
-    main_db_file: File,
+    pub main_db_file: File,
+    database_header: DatabaseHeader,
 }
 
 impl Pager {
     pub fn new(config: Config) -> PagerResult<Self> {
         debug!("Trying to open file {}, or create if it doesn't exist", &config.main_db_path);
 
-        let main_db_file = File::options()
+        let mut main_db_file = File::options()
             .read(true)
             .write(true)
             .create(true)
@@ -35,40 +39,41 @@ impl Pager {
 
         info!("Database file by path {} is opened successfully", &config.main_db_path);
 
-        let mut pager = Pager { main_db_file };
+        let database_header = Self::load_header_and_init_if_needed(&mut main_db_file)?;
 
-        pager.initialize_db_if_new()?;
-
-        Ok(pager)
+        Ok(Pager {
+            database_header,
+            main_db_file,
+        })
     }
 
-    fn initialize_db_if_new(&mut self) -> PagerResult<()> {
-        let file_metadata = self.main_db_file.metadata()?;
+    pub fn root_page_id(&self) -> PageId {
+        self.database_header.root_page_id
+    }
 
-        let file_length = file_metadata.len();
+    pub fn new_root(&mut self, new_root_page_id: PageId) -> PagerResult<()> {
+        self.database_header.root_page_id = new_root_page_id;
+        self.save_db_header()
+    }
 
-        debug!("Checking the file metadata to create the database header if it is absent");
-        if file_length == 0 {
-            debug!("Database file is empty – creating the metapage with header");
-            let mut metapage_buffer = vec![0_u8; PAGE_SIZE_BYTES as usize];
+    pub(crate) fn is_metapage(&self, page_id: u32) -> bool {
+        page_id == 0
+    }
 
-            let header = DatabaseHeader::default();
+    #[inline(always)]
+    pub(crate) fn new_page_payload_buffer(page_id: Option<PageId>) -> PageBuffer {
+        let page_size = (match page_id {
+            Some(0) => METAPAGE_SIZE_BYTES,
+            _ => PAGE_SIZE_BYTES,
+        }) as usize;
+        vec![0_u8; page_size]
+    }
 
-            // We control the input of the encoded value, we may ignore possible errors (unwrap())
-            let encoded_database_header = bincode
-                ::encode_into_slice(header, &mut metapage_buffer, bincode::config::standard())
-                .unwrap();
+    pub(super) fn new_page_buffer() -> PageBuffer {
+        vec![0_u8; PAGE_SIZE_BYTES as usize]
+    }
 
-            // We want to make sure that once we add new fields to the header it will not exceed
-            // the preserved space, otherwise we will start overwriting the first page metadata
-            assert!(encoded_database_header <= DATABASE_HEADER_BYTES);
-
-            self.main_db_file.write_all(&metapage_buffer)?;
-
-            info!("Database header has been written to metapage");
-        } else {
-            info!("Database file is not empty, its size is {}", file_length);
-        }
-        Ok(())
+    pub(super) fn close(&mut self) -> PagerResult<()> {
+        self.main_db_file.flush()
     }
 }

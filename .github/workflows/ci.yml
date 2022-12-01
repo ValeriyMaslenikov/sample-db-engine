@@ -45,4 +45,12 @@ jobs:
 
             - name: Linting the app via Cargo clippy
               run: |
-                  cargo clippy -- -D warnings
+                  cargo clippy --all-features -- -D warnings
+
+            - name: Running unit tests
+              run: |
+                  cargo test --lib
+
+            - name: Running integration tests
+              run: |
+                  cargo test --test integration_test --features integration

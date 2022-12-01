@@ -16,9 +16,17 @@ fn main() {
         ..Default::default()
     });
 
-    if connection_result.is_err() {
-        error!("Connection to database cannot be established: {}", connection_result.unwrap_err());
-    } else {
+    if let Ok(mut connection) = connection_result {
         info!("Connection to database engine is succesfully established");
+
+        let random_data = vec!["K".as_bytes()[0]; 256];
+
+        for i in 1..2000 {
+            connection.insert(i, &random_data).unwrap();
+        }
+
+        connection.insert(0, "Hello world!".as_bytes()).unwrap();
+    } else {
+        error!("Connection to database cannot be established: {}", connection_result.unwrap_err());
     }
 }
