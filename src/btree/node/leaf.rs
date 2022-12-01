@@ -90,7 +90,6 @@ impl LeafNode {
     }
 
     pub(crate) fn put(&mut self, key: DatabaseKey, value: &[u8]) {
-        assert!(self.is_leaf());
         let (index, existing_key_ref) = self.find_position_for(key);
 
         if existing_key_ref.is_none() {

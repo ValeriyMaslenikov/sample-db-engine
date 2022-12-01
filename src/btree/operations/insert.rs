@@ -100,8 +100,8 @@ fn split_and_persist_nodes(
     }
 
     // we replace existing and insert the new one
-    let new_copy = PagedNode { node: new_node.clone(), page_id: new_node_page_id };
-    let dividers = compute_dividers(parent_node, to_split, &new_copy);
+    let paged_new = PagedNode { node: new_node, page_id: new_node_page_id };
+    let dividers = compute_dividers(parent_node, to_split, &paged_new);
 
     for replace in dividers.replace {
         parent_node.replace_divider(
@@ -128,7 +128,7 @@ fn split_and_persist_nodes(
     }
 
     Ok(SplitResult {
-        new_child: PagedNode { page_id: new_node_page_id, node: new_node },
+        new_child: paged_new,
     })
 }
 

@@ -47,10 +47,9 @@ struct NodeHeader {
 
 fn format_leaf(auto leaf) {
   return std::format(
-    "key: {}, length: {}, hash {}",
+    "key: {}, length: {}",
     leaf.key,
-    leaf.length,
-    leaf.reference
+    leaf.length
   );
 };
 

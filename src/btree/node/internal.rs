@@ -149,6 +149,7 @@ impl InternalNode {
         key_ref.save_by_index(&mut self.data_space, index);
 
         self.header.elements_count += 1;
+        self.header.free_space_start_offset += KeyReferenceInternal::bytes_per_item() as PageSpace;
     }
 
     pub(in crate::btree) fn put(&mut self, divider: DatabaseKey, page_id: PageId) {
